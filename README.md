@@ -1,7 +1,9 @@
 ## Annotated Router for Zend Framework 2
 
-This module provides routing annotation classes to use within controller.
+This module allows to use annotations to define routes in controller's comment blocks.
 The goal of this project is get rid of large routes configuration arrays in module configs.
+
+This module is completely compatible with standard ZF2 router as it generates the same config as defined within module.
 
 #### Install module via composer
 ```bash
@@ -156,11 +158,11 @@ class IndexController extends AbstractActionController
 ```
 
 1. "extends" only applied to class-level route definition, if you try to add it to action route, that will fail with exception as it is not currently implemented.
-
-2. "extends" must contain valid and existing route
-3. "extends" can point to child route, eg. passing {"extends": "root/first/second"} will extend given path with routes from current class. 
-4. Root route annotation must contain "route" and "name"
-5. Child (action) routes may be empty (see full controller listing). In that case module will try to guess options.
+2. "extends" must contain valid and existing route;
+3. "extends" can point to child route, eg. passing {"extends": "root/first/second"} will extend given path with routes from current class;
+4. Root route annotation must contain "route" and "name";
+5. Child (action) routes may be empty (see full controller listing). In that case module will try to guess options;
+5. Config, defined in module.config.php has the higher priority that annotations. That means, that if there 2 routes with same name defined via @Route and via module.config.php, the last one will be passed to router..
 
 #### Complete controller listing:
 ```php
