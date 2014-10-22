@@ -30,8 +30,8 @@ array(
         'compile_on_request' => true, 
         // cache file
         'cache_file' => 'data/cache/router.cache.php', 
-        // if true and 'compile_on_request' is off, will load config from
-        'use_cache' => true,  'cache_file'
+        // if true and 'compile_on_request' is off, will load config from 'cache_file'
+        'use_cache' => true,  
     ),
 )
 ```
@@ -99,7 +99,7 @@ array (
 );
 ```
 
-#### Class-level annotations can be insterted into another existing route:
+#### Class-level annotations can be added into another existing route:
 ```php
 /**
  * @Route(extends="parent/route", name="home", route="/")
