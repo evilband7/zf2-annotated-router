@@ -97,7 +97,7 @@ array (
 );
 ```
 
-#### Class-level annotations can be insterten into another route:
+#### Class-level annotations can be insterted into another existing route:
 ```php
 /**
  * @Route(extends="parent/route", name="home", route="/")
@@ -150,18 +150,17 @@ array (
  *     constraints={"id": "\d+", "method": "\w+"}
  * )
  */
-public function someMethod() {}
+public function someAction() {}
 // or if apply to controller
 class IndexController extends AbstractActionController
 ```
 
-##### 1. "extends" only applied to class-level route definition, if you try to add it to action route, that will fail with exception as it is not currently implemented.
+1. "extends" only applied to class-level route definition, if you try to add it to action route, that will fail with exception as it is not currently implemented.
 
-##### 2. "extends" must contain valid and existing route
-##### 3. "extends" can point to child route, eg. passing {"extends": "root/first/second"} will extend given path with routes from current class. 
-
-##### 4. Root route annotation must contain "route" and "name"
-##### 5. Child (action) routes may be empty (see full controller listing). In that case module will try to guess options.
+2. "extends" must contain valid and existing route
+3. "extends" can point to child route, eg. passing {"extends": "root/first/second"} will extend given path with routes from current class. 
+4. Root route annotation must contain "route" and "name"
+5. Child (action) routes may be empty (see full controller listing). In that case module will try to guess options.
 
 #### Complete controller listing:
 ```php
