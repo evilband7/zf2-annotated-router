@@ -3,10 +3,8 @@ return array(
     'annotated_router' => array(
         'compile_on_request' => true,
         'cache_file' => 'data/cache/router.cache.php',
-        'use_cache' => true,
+        'use_cache' => false,
         'annotations' => array(
-            'AnnotatedRouter\Annotation\Base',
-            'AnnotatedRouter\Annotation\Index',
             'AnnotatedRouter\Annotation\Route',
         )
     ),
