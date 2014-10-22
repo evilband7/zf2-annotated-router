@@ -1,7 +1,7 @@
 ## Annotated Router for Zend Framework 2
 
-This module allows to use annotations to define routes in controller's comment blocks.
-The goal of this project is get rid of large routes configuration arrays in module configs.
+This module allows usage of annotations in controller's comment blocks to define routes.
+The goal of this project is to get rid of large routes configuration arrays in module configs.
 
 This module is completely compatible with standard ZF2 router as it generates the same config as defined within module.
 
@@ -21,8 +21,8 @@ return array(
 );
 ```
 
-#### Configuration:
-This default options can be overwritted within your application:
+#### Default configuration:
+Default options can be overwritted within your application:
 ```php
 array(
     'annotated_router' => array(
@@ -45,12 +45,12 @@ cli router dump
 cli router dump --complete
 ```
 
-#### Add annotations namespace into controller uses
+#### Add annotations namespace
 ```php
 use AnnotatedRouter\Annotation\Route;
 ```
 
-#### Annotate actions with @Route annotation
+#### Annotate actions\class with @Route annotation
 ```php
 /**
  * @Route(name="dashboard", route="/dashboard")
@@ -72,7 +72,7 @@ array (
 );
 ```
 
-#### If you want to group controller actions under the same parent route, add @Route annotation to class definition:
+#### If you want to group actions under the same parent route, add @Route annotation to class definition:
 ```php
 /**
  * @Route(name="home", route="/")
@@ -99,7 +99,7 @@ array (
 );
 ```
 
-#### Class-level annotations can be added into another existing route:
+#### Class-level annotations can be merged into another route:
 ```php
 /**
  * @Route(extends="parent/route", name="home", route="/")
@@ -107,7 +107,7 @@ array (
 class IndexController extends AbstractActionController
 ```
 
-The output will be:
+Array:
 ```php
 array (
     'parent' => array(
@@ -149,7 +149,8 @@ array (
  *     route="/complete-definition/:id/:method",
  *     type="segment",
  *     defaults={"controller": "nobase", "action": "complete-definition-action"},
- *     constraints={"id": "\d+", "method": "\w+"}
+ *     constraints={"id": "\d+", "method": "\w+"},
+ *     mayTerminate: true
  * )
  */
 public function someAction() {}
@@ -162,7 +163,7 @@ class IndexController extends AbstractActionController
 3. "extends" can point to child route, eg. passing {"extends": "root/first/second"} will extend given path with routes from current class;
 4. Root route annotation must contain "route" and "name";
 5. Child (action) routes may be empty (see full controller listing). In that case module will try to guess options;
-5. Config, defined in module.config.php has the higher priority that annotations. That means, that if there 2 routes with same name defined via @Route and via module.config.php, the last one will be passed to router..
+5. Config, defined in module.config.php has the higher priority than annotations. If there are 2 routes with the same name defined via @Route and via module.config.php, the last one will be passed to router..
 
 #### Complete controller listing:
 ```php
@@ -173,15 +174,15 @@ use AnnotatedRouter\Annotation\Route;
 use Zend\Mvc\Controller\AbstractActionController;
 
 /**
-    * @Route(
-    *     extends="other/route",
-    *     name="root-route",
-    *     route="/path/to/web/page/id/:id/:method",
-    *     type="segment",
-    *     defaults={"controller": "my-controller", "action": "my-action"},
-    *     constraints={"id": "\d+", "method": "\w+"}
-    * )
-    */
+* @Route(
+*     extends="other/route",
+*     name="root-route",
+*     route="/path/to/web/page/id/:id/:method",
+*     type="segment",
+*     defaults={"controller": "my-controller", "action": "my-action"},
+*     constraints={"id": "\d+", "method": "\w+"}
+* )
+*/
 class IndexController extends AbstractActionController
 {
     /**
