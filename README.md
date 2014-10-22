@@ -169,17 +169,27 @@ class IndexController extends AbstractActionController
 <?php
 namespace AnnotatedRouterTest\TestController;
 
-use AnnotatedRouter\Annotation as Router;
+use AnnotatedRouter\Annotation\Route;
 use Zend\Mvc\Controller\AbstractActionController;
 
-class NoBaseController extends AbstractActionController
+/**
+    * @Route(
+    *     extends="other/route",
+    *     name="root-route",
+    *     route="/path/to/web/page/id/:id/:method",
+    *     type="segment",
+    *     defaults={"controller": "my-controller", "action": "my-action"},
+    *     constraints={"id": "\d+", "method": "\w+"}
+    * )
+    */
+class IndexController extends AbstractActionController
 {
     /**
-     * @Router\Route(
-     *     name="complete-definition",
-     *     route="/complete-definition/:id/:method",
+     * @Route(
+     *     name="index",
+     *     route="/index/:id/:method",
      *     type="segment",
-     *     defaults={"controller": "nobase", "action": "complete-definition-action"},
+     *     defaults={"controller": "my-controller", "action": "my-action"},
      *     constraints={"id": "\d+", "method": "\w+"}
      * )
      */
@@ -187,42 +197,42 @@ class NoBaseController extends AbstractActionController
     {}
 
     /**
-     * @Router\Route(
+     * @Route(
      *     route="/route",
      *     type="literal",
-     *     defaults={"controller": "nobase", "action": "no-route"}
+     *     defaults={"controller": "my-controller", "action": "my-action"}
      * )
      */
     public function action2Action()
     {}
 
     /**
-     * @Router\Route(
+     * @Route(
      *     type="literal",
-     *     defaults={"controller": "nobase", "action": "no-route"}
+     *     defaults={"controller": "my-controller", "action": "my-action"}
      * )
      */
     public function action3Action()
     {}
 
     /**
-     * @Router\Route(
-     *     defaults={"controller": "nobase", "action": "no-route"}
+     * @Route(
+     *     defaults={"controller": "my-controller", "action": "my-action"}
      * )
      */
     public function action4Action()
     {}
 
     /**
-     * @Router\Route(
-     *     defaults={"action": "no-route"}
+     * @Route(
+     *     defaults={"action": "my-action"}
      * )
      */
     public function action5Action()
     {}
 
     /**
-     * @Router\Route
+     * @Route
      */
     public function action6Action()
     {}
