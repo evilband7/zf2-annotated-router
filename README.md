@@ -1,15 +1,14 @@
-# Annotated Router for Zend Framework 2
+## Annotated Router for Zend Framework 2
 
 This module provides routing annotation classes to use within controller.
 The goal of this project is get rid of large routes configuration arrays in module configs.
 
-## Usage:
-###Install module via composer
+#### Install module via composer
 ```bash
 composer require alex.oleshkevich/zf2-annotated-router
 ```
 
-### Enable it in application.config.php
+#### Enable it in application.config.php
 ```php
 return array(
     'modules' => array(
@@ -20,30 +19,36 @@ return array(
 );
 ```
 
-### Configuration:
+#### Configuration:
 This default options can be overwritted within your application:
 ```php
 array(
     'annotated_router' => array(
-        'compile_on_request' => true, // do re-read annotation on every request?
-        'cache_file' => 'data/cache/router.cache.php', // cache file
-        'use_cache' => true, // if true, when 'compile_on_request' is off, will load config from 'cache_file'
+        // if true, parser will rescan and parse controller on every page request
+        'compile_on_request' => true, 
+        // cache file
+        'cache_file' => 'data/cache/router.cache.php', 
+        // if true and 'compile_on_request' is off, will load config from
+        'use_cache' => true,  'cache_file'
     ),
 )
 ```
 
-### Command line usage:
+#### Command line usage:
 ```bash
-  cli router dump               Compiles router annotations and dump into cache file.                                                                                         
-  cli router dump --complete    Compiles router annotations and dump all defined routes into cache file. 
+# Compile and dump routes to cache file
+cli router dump           
+
+# Compile and dump all routes including defined in module.config.php
+cli router dump --complete
 ```
 
-### Add annotations namespace into controller uses
+#### Add annotations namespace into controller uses
 ```php
 use AnnotatedRouter\Annotation\Route;
 ```
 
-### Annotate actions with @Route annotation
+#### Annotate actions with @Route annotation
 ```php
 /**
  * @Route(name="dashboard", route="/dashboard")
@@ -65,7 +70,7 @@ array (
 );
 ```
 
-### If you want to group controller actions under the same parent route, add @Route annotation to class definition:
+#### If you want to group controller actions under the same parent route, add @Route annotation to class definition:
 ```php
 /**
  * @Route(name="home", route="/")
@@ -92,7 +97,7 @@ array (
 );
 ```
 
-### Class-level annotations can be insterten into another route:
+#### Class-level annotations can be insterten into another route:
 ```php
 /**
  * @Route(extends="parent/route", name="home", route="/")
@@ -132,8 +137,8 @@ array (
 ```
 
 
-## Important to know
-### Complete @Route definition
+### Important to know
+#### Complete @Route definition
 ```php
 /**
  * @Route(
@@ -150,15 +155,15 @@ public function someMethod() {}
 class IndexController extends AbstractActionController
 ```
 
-#### 1. "extends" only applied to class-level route definition, if you try to add it to action route, that will fail with exception as it is not currently implemented.
+##### 1. "extends" only applied to class-level route definition, if you try to add it to action route, that will fail with exception as it is not currently implemented.
 
-#### 2. "extends" must contain valid and existing route
-#### 3. "extends" can point to child route, eg. passing {"extends": "root/first/second"} will extend given path with routes from current class. 
+##### 2. "extends" must contain valid and existing route
+##### 3. "extends" can point to child route, eg. passing {"extends": "root/first/second"} will extend given path with routes from current class. 
 
-#### 4. Root route annotation must contain "route" and "name"
-#### 5. Child (action) routes may be empty (see full controller listing). In that case module will try to guess options.
+##### 4. Root route annotation must contain "route" and "name"
+##### 5. Child (action) routes may be empty (see full controller listing). In that case module will try to guess options.
 
-### Complete controller listing:
+#### Complete controller listing:
 ```php
 <?php
 namespace AnnotatedRouterTest\TestController;
@@ -225,4 +230,3 @@ class NoBaseController extends AbstractActionController
 ```
 
 
- 
