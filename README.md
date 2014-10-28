@@ -7,7 +7,7 @@ This module is completely compatible with standard ZF2 router as it generates th
 
 #### Install module via composer
 ```bash
-composer require alex.oleshkevich/zf2-annotated-router
+composer require alex-oleshkevich/zf2-annotated-router
 ```
 
 #### Enable it in application.config.php
