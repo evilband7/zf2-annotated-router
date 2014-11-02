@@ -10,7 +10,7 @@ class ConsoleController extends AbstractActionController
     public function dumpAction()
     {
         $config = $this->serviceLocator->get('Config');
-        $annotatedRouterConfig = $this->serviceLocator->get('AnnotatedRouter\ControllerAnnotationParser')->getRouteConfig();
+        $annotatedRouterConfig = $this->serviceLocator->get('AnnotatedRouter\ControllerParser')->getRouteConfig();
 
         $generator = new ValueGenerator($annotatedRouterConfig);
         $content = "<?php\n\nreturn " . $generator . ';';
@@ -21,7 +21,7 @@ class ConsoleController extends AbstractActionController
     public function dumpCompleteAction()
     {
         $config = $this->serviceLocator->get('Config');
-        $annotatedRouterConfig = $this->serviceLocator->get('AnnotatedRouter\ControllerAnnotationParser')->getRouteConfig();
+        $annotatedRouterConfig = $this->serviceLocator->get('AnnotatedRouter\ControllerParser')->getRouteConfig();
         $annotatedRouterConfig = array_replace_recursive($annotatedRouterConfig, $config['router']['routes']);
 
         $generator = new ValueGenerator($annotatedRouterConfig);
