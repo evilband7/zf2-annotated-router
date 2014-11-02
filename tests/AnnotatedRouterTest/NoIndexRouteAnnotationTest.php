@@ -17,7 +17,8 @@ class NoIndexRouteAnnotationTest extends AbstractAnnotationTestCase
         /* @var $parser ControllerParser */
         $parser = $this->serviceManager->get('parser');
         $classReflection = new ClassReflection(new NoIndexRouteController);
-        $config = $parser->parseController($classReflection, new RouteConfigBuilder, 'noindex');
+        $builder = new RouteConfigBuilder();
+        $builder->addPart($parser->parseController($classReflection, 'noindex'));
 
         $expected = array(
             'root' => array(
@@ -72,7 +73,7 @@ class NoIndexRouteAnnotationTest extends AbstractAnnotationTestCase
             )
         );
 
-        $this->assertEquals($expected, $config->toArray());
+        $this->assertEquals($expected, $builder->toArray());
     }
 
 }

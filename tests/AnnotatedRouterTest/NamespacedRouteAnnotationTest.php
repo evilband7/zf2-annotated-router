@@ -18,7 +18,8 @@ class NamespacedRouteAnnotationTest extends AbstractAnnotationTestCase
         /* @var $parser ControllerParser */
         $parser = $this->serviceManager->get('parser');
         $classReflection = new ClassReflection(new NamespacedController);
-        $configBuilder = $parser->parseController($classReflection, new RouteConfigBuilder, 'namespaced');
+        $builder = new RouteConfigBuilder();
+        $builder->addPart($parser->parseController($classReflection, 'namespaced'));
 
         $expected = array(
             'root' => array(
@@ -79,7 +80,7 @@ class NamespacedRouteAnnotationTest extends AbstractAnnotationTestCase
             )
         );
 
-        $this->assertEquals($expected, $configBuilder->toArray());
+        $this->assertEquals($expected, $builder->toArray());
     }
 
 }

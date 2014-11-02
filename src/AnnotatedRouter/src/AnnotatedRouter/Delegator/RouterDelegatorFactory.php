@@ -1,4 +1,12 @@
 <?php
+/**
+ * Annotated Router module for Zend Framework 2
+ *
+ * @link      https://github.com/alex-oleshkevich/zf2-annotated-routerfor the canonical source repository
+ * @copyright Copyright (c) 2014 Alex Oleshkevich <alex.oleshkevich@gmail.com>
+ * @license   http://en.wikipedia.org/wiki/MIT_License MIT
+ */
+
 namespace AnnotatedRouter\Delegator;
 
 use Exception;
@@ -7,8 +15,20 @@ use Zend\Mvc\Router\Http\TreeRouteStack;
 use Zend\ServiceManager\DelegatorFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * Provides annotated routes into standard router.
+ * Applied on first router service call.
+ */
 class RouterDelegatorFactory implements DelegatorFactoryInterface
 {
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param string $name
+     * @param string $requestedName
+     * @param callable $callback
+     * @return SimpleRouteStack
+     * @throws Exception
+     */
     public function createDelegatorWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName, $callback)
     {
         /* @var $router TreeRouteStack */

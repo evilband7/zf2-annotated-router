@@ -1,16 +1,27 @@
 <?php
+/**
+ * Annotated Router module for Zend Framework 2
+ *
+ * @link      https://github.com/alex-oleshkevich/zf2-annotated-routerfor the canonical source repository
+ * @copyright Copyright (c) 2014 Alex Oleshkevich <alex.oleshkevich@gmail.com>
+ * @license   http://en.wikipedia.org/wiki/MIT_License MIT
+ */
 
 namespace AnnotatedRouter\Parser;
 
 use AnnotatedRouter\Annotation\Container;
 use AnnotatedRouter\Annotation\Route;
 use AnnotatedRouter\Service\RouteConfigBuilder;
+use Exception;
 use Zend\Code\Annotation\AnnotationCollection;
 use Zend\Code\Annotation\AnnotationManager;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Filter\FilterChain;
 
+/**
+ * Parser annotations from provided controllers.
+ */
 class ControllerParser
 {
 
@@ -24,24 +35,43 @@ class ControllerParser
      */
     protected $controllers;
 
-    function __construct(AnnotationManager $annotationManager, array $controllers)
+    /**
+     * Constructor.
+     *
+     * @param AnnotationManager $annotationManager
+     * @param array $controllers
+     */
+    public function __construct(AnnotationManager $annotationManager, array $controllers)
     {
         $this->annotationManager = $annotationManager;
         $this->controllers = $controllers;
     }
 
+    /**
+     * Returns complete router config from parsed controllers.
+     *
+     * @return array
+     */
     public function getRouteConfig()
     {
         $configBuilder = new RouteConfigBuilder;
         foreach ($this->controllers as $controllerAlias => $controller) {
             $classReflection = new ClassReflection($controller);
-            $this->parseController($classReflection, $configBuilder, $controllerAlias);
+            $routes = $this->parseController($classReflection, $controllerAlias);
+            $configBuilder->addPart($routes);
         }
 
         return $configBuilder->toArray();
     }
 
-    public function parseController(ClassReflection $controller, RouteConfigBuilder $configBuilder, $controllerAlias)
+    /**
+     * Extract annotation tree from controller.
+     *
+     * @param ClassReflection $controller
+     * @param string $controllerAlias An alias of controllers. Used in controller autodetection feature.
+     * @return Route
+     */
+    public function parseController(ClassReflection $controller, $controllerAlias)
     {
         $annotations = $this->getControllerAnnotations($controller);
 
@@ -69,10 +99,15 @@ class ControllerParser
                 }
             }
         }
-        $configBuilder->addPart($baseRoute);
-        return $configBuilder;
+        return $baseRoute;
     }
 
+    /**
+     * Returns class-level annotations.
+     *
+     * @param ClassReflection $controller
+     * @return AnnotationCollection
+     */
     public function getControllerAnnotations(ClassReflection $controller)
     {
         $annotations = $controller->getAnnotations($this->annotationManager);
@@ -82,6 +117,12 @@ class ControllerParser
         return $annotations;
     }
 
+    /**
+     * Returns annotations for actions.
+     *
+     * @param MethodReflection $method
+     * @return AnnotationCollection
+     */
     public function getMethodAnnotations(MethodReflection $method)
     {
         $annotations = $method->getAnnotations($this->annotationManager);
@@ -91,6 +132,15 @@ class ControllerParser
         return $annotations;
     }
 
+    /**
+     * Tries to guess default values for route if there some missing ones.
+     *
+     * @param Route $annotation
+     * @param MethodReflection $method
+     * @param string $controllerKey
+     * @return Route
+     * @throws Exception
+     */
     public function autodetectMissingFields(Route $annotation, $method, $controllerKey)
     {
         if ($method instanceof MethodReflection) {
@@ -123,6 +173,12 @@ class ControllerParser
         return $annotation;
     }
 
+    /**
+     * Sanitizes action name to use in route.
+     *
+     * @param string $name
+     * @return string
+     */
     protected function filterActionMethodName($name)
     {
         $filter = new FilterChain;

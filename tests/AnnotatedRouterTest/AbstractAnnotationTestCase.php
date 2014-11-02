@@ -25,15 +25,19 @@ class AbstractAnnotationTestCase extends PHPUnit_Framework_TestCase
         $this->serviceManager = new ServiceManager;
         $controllerLoader = new ControllerManager();
         $controllerLoader->setServiceLocator($this->serviceManager);
-        $controllerLoader->setInvokableClass('nobase', 'AnnotatedRouterTest\TestController\NoBaseController');
-        $controllerLoader->setInvokableClass('namespaced', 'AnnotatedRouterTest\TestController\NamespacedController');
-        $controllerLoader->setInvokableClass('noindexroute', 'AnnotatedRouterTest\TestController\NoIndexRouteController');
-        $controllerLoader->setInvokableClass('invalidrootroute', 'AnnotatedRouterTest\TestController\InvalidRootRouteController');
-        $controllerLoader->setInvokableClass('extends', 'AnnotatedRouterTest\TestController\ExtendsController');
         $this->serviceManager->setService('ControllerLoader', $controllerLoader);
         $this->serviceManager->setFactory('AnnotatedRouter\AnnotationManager', 'AnnotatedRouter\Service\AnnotationManagerFactory');
         $this->serviceManager->setFactory('parser', 'AnnotatedRouter\Service\ControllerParserFactory');
         $this->serviceManager->setService('Config', array(
+            'controllers' => array(
+                'invokables' => array(
+                    'nobase' => 'AnnotatedRouterTest\TestController\NoBaseController',
+                    'namespaced' => 'AnnotatedRouterTest\TestController\NamespacedController',
+                    'noindexroute' => 'AnnotatedRouterTest\TestController\NoIndexRouteController',
+                    'invalidrootroute' => 'AnnotatedRouterTest\TestController\InvalidRootRouteController',
+                    'extends' => 'AnnotatedRouterTest\TestController\ExtendsController'
+                )
+            ),
             'annotated_router' => array(
                 'compile_on_request' => true,
                 'cache_file' => 'data/cache/router.cache.php',

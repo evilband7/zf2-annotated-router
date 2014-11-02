@@ -17,10 +17,11 @@ class ExtendsAnnotationTest extends AbstractAnnotationTestCase
         /* @var $parser ControllerParser */
         $parser = $this->serviceManager->get('parser');
         $classReflection = new ClassReflection(new ExtendsController);
-        $config = $parser->parseController($classReflection, new RouteConfigBuilder, 'extends');
+        $builder = new RouteConfigBuilder();
+        $builder->addPart($parser->parseController($classReflection, 'extends'));
 
         $routeConfig = $this->serviceManager->get('Config')['router']['routes'];
-        $config = array_replace_recursive($config->toArray(), $routeConfig);
+        $config = array_replace_recursive($builder->toArray(), $routeConfig);
 
         $expected = array(
             'default' => array(
