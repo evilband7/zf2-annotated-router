@@ -36,6 +36,9 @@ class Route implements AnnotationInterface
      */
     public $constraints;
 
+    /**
+     * @var bool
+     */
     public $mayTerminate = true;
 
     /**
@@ -206,7 +209,7 @@ class Route implements AnnotationInterface
         if ($this->extends) {
             throw new InvalidArgumentException(
                 'Child route cannot extend another one (not implemented). '
-                    . 'Seen in route name"' . $this->name . '", '
+                    . 'Seen in route "' . $this->name . '", '
                     . 'route: "' . $this->route . '", '
                     . 'tried to extend: "' . $this->extends . '"'
                 );
