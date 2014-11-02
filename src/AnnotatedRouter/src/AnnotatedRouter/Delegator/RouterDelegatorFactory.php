@@ -33,7 +33,7 @@ class RouterDelegatorFactory implements DelegatorFactoryInterface
             }
         }
 
-        $defaultRouterConfig = $config['router']['routes'];
+        $defaultRouterConfig = isset($config['router']['routes']) ? $config['router']['routes'] : array();
         $mergedRouterConfig = array_replace_recursive($annotatedRouterConfig, $defaultRouterConfig);
         $router->addRoutes($mergedRouterConfig);
         return $router;
